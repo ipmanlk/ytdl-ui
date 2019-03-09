@@ -21,11 +21,10 @@
 				<small>By www.navinda.xyz</small>
 			</h1>
 		</div>
-		<hr>
 
 		<div id="panelSearch">
 			<div id="txtUrlGroup" class="input-group input-group-lg">
-				<input id="txtUrl" type="text" class="form-control input-lg" placeholder="https://www.youtube.com/watch?v=jj8NKUWrmlo">
+				<input id="txtVidUrl" type="text" class="form-control input-lg" placeholder="https://www.youtube.com/watch?v=jj8NKUWrmlo">
 				<span class="input-group-addon">
 					<i class="fas fa-video"></i>
 				</span>
@@ -40,7 +39,6 @@
 			<button id="btnSearch" class="btn btn-primary btn-primary btn-block" style="margin-top: 20px;">Search</button>
 
 
-
 			<div id="insPanel" class="panel panel-default" style="margin-top: 20px;">
 				<div class="panel-body">
 					<center>
@@ -50,7 +48,7 @@
 			</div>
 		</div>
 
-		<div id="panelDown" style="display: none">
+		<div id="panelDown" style="display: none; margin-bottom: 30px;">
 			<div class="panel panel-default" style="margin-top: 20px;">
 				<div class="panel-heading">
 					Formats (Please select one)
@@ -61,19 +59,83 @@
 
 					</div>
 				</div>
-
-				<div id="progressDown" class="progress progress-striped active" style="display: none">
-					<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0"
-					 aria-valuemax="100" style="width: 100%">
-					</div>
-				</div>
 			</div>
 
 			<button id="btnDownload" class="btn btn-primary btn-success btn-block" disabled>Download</button>
 		</div>
 
 		<script>
-var selectedVid,selectedVidUrl;function onReady(){eventListenersRegister()}function eventListenersRegister(){$("#btnSearch").on("click",btnSearchClick),$("#btnDownload").on("click",btnDownloadClick)}function listItemSelect(){$(".list-group-item").removeClass("active"),$(this).addClass("active")}function btnSearchClick(){selectedVidUrl=$("#txtUrl").val(),/http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/.test(selectedVidUrl)?($("#txtUrlGroup").removeClass("has-error"),$("#txtUrlGroup").addClass("has-success"),$("#progressSearch").fadeIn(),$("#btnSearch").attr("disabled",!0),requestSend("details",{url:selectedVidUrl},function(t){listDownloadsAppend(JSON.parse(t)),$("#progressSearch").fadeOut(),$("#btnSearch").attr("disabled",!1)})):($("#txtUrlGroup").removeClass("has-success"),$("#txtUrlGroup").addClass("has-error"))}function listDownloadsAppend(t){$("#listDownloads").empty();for(let e=0;e<t.length;e++)t[e].type,$("#listDownloads").append(`\n\t\t\t\t\t\t<a onclick="downloadSelect('${selectedVidUrl}', '${t[e].code}')" class="list-group-item">\n\t\t\t\t\t\t\t${t[e].type} - ${t[e].format} - ${t[e].quality} - ${t[e].size} \n\t\t\t\t\t\t</a>\n\t\t\t\t\t\t`);$(".list-group-item").on("click",listItemSelect),$("#panelSearch").hide(),$("#panelDown").fadeIn()}function downloadSelect(t,e){selectedVid={url:t,code:e},$("#btnDownload").attr("disabled",!1)}function requestSend(t,e,n){let s;s="details"==t?"https://s1.navinda.xyz/youtube/details.php":"https://s1.navinda.xyz/youtube/download.php",$.ajax({url:s,method:"GET",data:e,success:function(t){n(t)}})}function btnDownloadClick(){$("#btnDownload").attr("disabled",!0),$("#progressDown").fadeIn(),requestSend("download",selectedVid,function(t){$("#progressDown").fadeOut(),window.location=t})}$(document).ready(onReady);
+			let videoDetails = {};
+			let urlSelected;
+			$(document).ready(function () {
+				init();
+			});
+
+			function init() {
+				registerEventListeners();
+			}
+
+			function registerEventListeners() {
+				$("#btnSearch").click(btnSearchClick);
+				$("#btnDownload").click(btnDownloadClick);
+			}
+
+
+			function btnSearchClick() {
+				$("#btnSearch").attr("disabled", true);
+				$("#progressSearch").fadeIn();
+				let url = $("#txtVidUrl").val();
+				detailsGet(url, function () {
+					let formats = videoDetails.formats;
+					// loop through formats
+					for (i in formats) {
+						$("#listDownloads").append(`<li onclick="vidDownloadSelect(this, ${i})" class="list-group-item">${listItemTextGet(formats[i])}</li>`);
+					}
+					$("#progressSearch").hide();
+					$("#panelSearch").hide();
+					$("#panelDown").fadeIn();
+				});
+			}
+
+			function listItemTextGet(file) {
+				let filesize = file.filesize !== "best" ? (formatBytes(file.filesize)).trim() : "best";
+				let format = (((file.format).split("-"))[1]).trim();
+				let ext = file.ext;
+				let tbr = Math.round(file.tbr);
+				if (format.indexOf("audio only (DASH audio)") > -1) {
+					return(`${format} - ${tbr}k - ${ext} - (${filesize})`);
+				} else {
+					return(`video - ${format} - ${ext} - (${filesize})`);
+				}
+			}
+
+			function vidDownloadSelect(elem, code) {
+				$(".list-group-item").removeClass("active");
+				$(elem).addClass("active");
+				urlSelected = videoDetails["formats"][code]["url"];
+				$("#btnDownload").attr("disabled", false);
+			}
+
+			function btnDownloadClick() {
+				window.location = urlSelected;
+			}
+
+			function detailsGet(url, callback) {
+				$.get("http://localhost/Projects/youtube/info.php", { url, url }, function (data) {
+					videoDetails = data;
+					callback();
+				}, "json")
+			}
+
+			function formatBytes(bytes, decimals) {
+				if (bytes == 0) return '0 Bytes';
+				var k = 1024,
+					dm = decimals <= 0 ? 0 : decimals || 2,
+					sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+					i = Math.floor(Math.log(bytes) / Math.log(k));
+				return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+			}
+
 		</script>
 </body>
 
