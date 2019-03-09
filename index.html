@@ -145,7 +145,7 @@
 			}
 
 			function detailsGet(url, callback) {
-				$.get("http://localhost/Projects/ytdl-backend/info.php", { url, url }, function (data) {
+				$.get("https://s1.navinda.xyz/youtube/info.php", { url, url }, function (data) {
 					videoDetails = data;
 					callback();
 				}, "json")
