@@ -53,7 +53,7 @@ function btnExDownloadClick() {
 		"code": codeSelected
 	};
 
-	let url = "https://s1.navinda.xyz/youtube/download.php";
+	let url = "./request/download.php";
 
 	$.get(url, data, function (data) {
 		window.location = data;
@@ -86,7 +86,7 @@ function btnDownloadClick() {
 }
 
 function detailsGet(url, callback) {
-	$.get("https://s1.navinda.xyz/youtube/info.php", { url, url }, function (data) {
+	$.get("./request/info.php", { url, url }, function (data) {
 		videoDetails = data;
 		callback();
 	}, "json")
