@@ -50,6 +50,19 @@
 
 		<div id="panelDown" style="display: none; margin-bottom: 30px;">
 			<div class="panel panel-default" style="margin-top: 20px;">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-xs-4">
+							<img id="imgVidThumb" style="width: 100%" src="" alt="">
+						</div>
+						<div class="col-xs-8">
+							<h4>Title: <span id="lblVidTitle"></span></h4>
+							<h4>Duration: <span id="lblVidDuration"></span></h4>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default" style="margin-top: 20px;">
 				<div class="panel-heading">
 					Formats (Please select one)
 				</div>
@@ -89,12 +102,20 @@
 					let url = $("#txtVidUrl").val();
 					detailsGet(url, function () {
 						let formats = videoDetails.formats;
+
+						// video info card
+						$("#imgVidThumb").attr("src", videoDetails.thumbnail);
+						$("#lblVidTitle").text(videoDetails.title);
+						$("#lblVidDuration").text(fancyTimeFormat(videoDetails.duration));
+
 						// loop through formats
 						for (i in formats) {
 							$("#listDownloads").append(`<li onclick="vidDownloadSelect(this, ${i})" class="list-group-item">${listItemTextGet(formats[i])}</li>`);
 						}
+						
 						$("#progressSearch").hide();
 						$("#panelSearch").hide();
+						$("#btnDownload").attr("disabled", true);
 						$("#panelDown").fadeIn();
 					});
 				}
@@ -124,7 +145,7 @@
 			}
 
 			function detailsGet(url, callback) {
-				$.get("http://localhost/Projects/youtube/info.php", { url, url }, function (data) {
+				$.get("http://localhost/Projects/ytdl-backend/info.php", { url, url }, function (data) {
 					videoDetails = data;
 					callback();
 				}, "json")
@@ -152,6 +173,25 @@
 					// return (false);
 				}
 			}
+
+			function fancyTimeFormat(time) {
+				// Hours, minutes and seconds
+				var hrs = ~~(time / 3600);
+				var mins = ~~((time % 3600) / 60);
+				var secs = ~~time % 60;
+
+				// Output like "1:01" or "4:03:59" or "123:03:59"
+				var ret = "";
+
+				if (hrs > 0) {
+					ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+				}
+
+				ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+				ret += "" + secs;
+				return ret;
+			}
+
 		</script>
 </body>
 
