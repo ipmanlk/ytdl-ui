@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Easy Youtube Download</title>
+	<link rel="stylesheet" href="./css/metro-bootstrap.min.css">
+	<link rel="stylesheet" href="./css/fontawesome.css">
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script></script>
+</head>
+
+<body>
+	<div class="container">
+		<div class="page-header">
+			<h1>
+				Easy YT Downloader
+				<small>By www.navinda.xyz</small>
+			</h1>
+		</div>
+		<hr>
+
+		<div id="panelSearch">
+			<div id="txtUrlGroup" class="input-group input-group-lg">
+				<input id="txtUrl" type="text" class="form-control input-lg" placeholder="https://www.youtube.com/watch?v=jj8NKUWrmlo">
+				<span class="input-group-addon">
+					<i class="fas fa-video"></i>
+				</span>
+			</div>
+
+			<div id="progressSearch" class="progress progress-striped active" style="display: none">
+				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+				 aria-valuemax="100" style="width: 100%;">
+				</div>
+			</div>
+
+			<button id="btnSearch" class="btn btn-primary btn-primary btn-block" style="margin-top: 20px;">Search</button>
+
+
+
+			<div id="insPanel" class="panel panel-default" style="margin-top: 20px;">
+				<div class="panel-body">
+					<center>
+						<h4>Paste your youtube link here & click on search button to see the magic happens!</h4>
+					</center>
+				</div>
+			</div>
+		</div>
+
+		<div id="panelDown" style="display: none">
+			<div class="panel panel-default" style="margin-top: 20px;">
+				<div class="panel-heading">
+					Formats (Please select one)
+				</div>
+
+				<div class="panel-body">
+					<div class="list-group" id="listDownloads">
+
+					</div>
+				</div>
+
+				<div id="progressDown" class="progress progress-striped active" style="display: none">
+					<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+					 aria-valuemax="100" style="width: 100%">
+					</div>
+				</div>
+			</div>
+
+			<button id="btnDownload" class="btn btn-primary btn-success btn-block" disabled>Download</button>
+		</div>
+
+		<script>
+var selectedVid,selectedVidUrl;function onReady(){eventListenersRegister()}function eventListenersRegister(){$("#btnSearch").on("click",btnSearchClick),$("#btnDownload").on("click",btnDownloadClick)}function listItemSelect(){$(".list-group-item").removeClass("active"),$(this).addClass("active")}function btnSearchClick(){selectedVidUrl=$("#txtUrl").val(),/http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/.test(selectedVidUrl)?($("#txtUrlGroup").removeClass("has-error"),$("#txtUrlGroup").addClass("has-success"),$("#progressSearch").fadeIn(),$("#btnSearch").attr("disabled",!0),requestSend("details",{url:selectedVidUrl},function(t){listDownloadsAppend(JSON.parse(t)),$("#progressSearch").fadeOut(),$("#btnSearch").attr("disabled",!1)})):($("#txtUrlGroup").removeClass("has-success"),$("#txtUrlGroup").addClass("has-error"))}function listDownloadsAppend(t){$("#listDownloads").empty();for(let e=0;e<t.length;e++)t[e].type,$("#listDownloads").append(`\n\t\t\t\t\t\t<a onclick="downloadSelect('${selectedVidUrl}', '${t[e].code}')" class="list-group-item">\n\t\t\t\t\t\t\t${t[e].type} - ${t[e].format} - ${t[e].quality} - ${t[e].size} \n\t\t\t\t\t\t</a>\n\t\t\t\t\t\t`);$(".list-group-item").on("click",listItemSelect),$("#panelSearch").hide(),$("#panelDown").fadeIn()}function downloadSelect(t,e){selectedVid={url:t,code:e},$("#btnDownload").attr("disabled",!1)}function requestSend(t,e,n){let s;s="details"==t?"https://s1.navinda.xyz/youtube/details.php":"https://s1.navinda.xyz/youtube/download.php",$.ajax({url:s,method:"GET",data:e,success:function(t){n(t)}})}function btnDownloadClick(){$("#btnDownload").attr("disabled",!0),$("#progressDown").fadeIn(),requestSend("download",selectedVid,function(t){$("#progressDown").fadeOut(),window.location=t})}$(document).ready(onReady);
+		</script>
+</body>
+
+</html>
