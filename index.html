@@ -78,23 +78,26 @@
 			function registerEventListeners() {
 				$("#btnSearch").click(btnSearchClick);
 				$("#btnDownload").click(btnDownloadClick);
+				$("#txtVidUrl").on("change keyup paste", vidUrlValidate);
 			}
 
 
 			function btnSearchClick() {
-				$("#btnSearch").attr("disabled", true);
-				$("#progressSearch").fadeIn();
-				let url = $("#txtVidUrl").val();
-				detailsGet(url, function () {
-					let formats = videoDetails.formats;
-					// loop through formats
-					for (i in formats) {
-						$("#listDownloads").append(`<li onclick="vidDownloadSelect(this, ${i})" class="list-group-item">${listItemTextGet(formats[i])}</li>`);
-					}
-					$("#progressSearch").hide();
-					$("#panelSearch").hide();
-					$("#panelDown").fadeIn();
-				});
+				if (vidUrlValidate()) {
+					$("#btnSearch").attr("disabled", true);
+					$("#progressSearch").fadeIn();
+					let url = $("#txtVidUrl").val();
+					detailsGet(url, function () {
+						let formats = videoDetails.formats;
+						// loop through formats
+						for (i in formats) {
+							$("#listDownloads").append(`<li onclick="vidDownloadSelect(this, ${i})" class="list-group-item">${listItemTextGet(formats[i])}</li>`);
+						}
+						$("#progressSearch").hide();
+						$("#panelSearch").hide();
+						$("#panelDown").fadeIn();
+					});
+				}
 			}
 
 			function listItemTextGet(file) {
@@ -103,9 +106,9 @@
 				let ext = file.ext;
 				let tbr = Math.round(file.tbr);
 				if (format.indexOf("audio only (DASH audio)") > -1) {
-					return(`${format} - ${tbr}k - ${ext} - (${filesize})`);
+					return (`${format} - ${tbr}k - ${ext} - (${filesize})`);
 				} else {
-					return(`video - ${format} - ${ext} - (${filesize})`);
+					return (`video - ${format} - ${ext} - (${filesize})`);
 				}
 			}
 
@@ -136,6 +139,19 @@
 				return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 			}
 
+			function vidUrlValidate() {
+				let val = $("#txtVidUrl").val();
+				let regEx = /^(http(s)??\:\/\/)?(www\.)?((youtube\.com\/watch\?v=)|(youtu.be\/))([a-zA-Z0-9\-_])+/;
+				if (regEx.test(val)) {
+					$("#txtUrlGroup").removeClass("has-error");
+					$("#txtUrlGroup").addClass("has-success");
+					return (true);
+				} else {
+					$("#txtUrlGroup").removeClass("has-success");
+					$("#txtUrlGroup").addClass("has-error");
+					// return (false);
+				}
+			}
 		</script>
 </body>
 
