@@ -16,10 +16,9 @@
 <body>
 	<div class="container">
 		<div class="page-header">
-			<h1>
+			<h2>
 				Easy YT Downloader
-				<small>By www.navinda.xyz</small>
-			</h1>
+			</h2>
 		</div>
 
 		<div id="panelSearch">
@@ -49,53 +48,60 @@
 		</div>
 
 		<div id="panelDown" style="margin-bottom: 30px;display: none"">
-			<div class="panel panel-default" style="margin-top: 20px;">
-				<div class="panel-body">
-					<div class="row">
-						<div class="col-xs-4">
-							<img id="imgVidThumb" style="width: 100%; height: 100%" src="" alt="">
-						</div>
-						<div class="col-xs-8">
-							<h4>Title: <span id="lblVidTitle"></span></h4>
-							<h4>Duration: <span id="lblVidDuration"></span></h4>
-						</div>
+			<div class=" panel panel-default" style="margin-top: 20px;">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-4">
+						<img id="imgVidThumb" style="width: 100%; height: 100%" src="" alt="">
+					</div>
+					<div class="col-xs-8">
+						<h4>Title: <span id="lblVidTitle"></span></h4>
+						<h4>Duration: <span id="lblVidDuration"></span></h4>
 					</div>
 				</div>
 			</div>
-			<div class="panel panel-default" style="margin-top: 20px;">
-				<div class="panel-heading">
-					Formats (Please select one)
-				</div>
-
-				<div class="panel-body">
-					<div class="list-group" id="listDownloads">
-
-					</div>
-				</div>
+		</div>
+		<div class="panel panel-default" style="margin-top: 20px;">
+			<div class="panel-heading">
+				Formats (Please select one)
 			</div>
 
-			<div id="progressDownload" class="progress progress-striped active" style="display: none">
-				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0"
-				 aria-valuemax="100" style="width: 100%;">
-				</div>
-			</div>
+			<div class="panel-body">
+				<div class="list-group" id="listDownloads" style="margin-bottom:0">
 
-			<div class="row">
-				<div class="col-xs-9">
-					<button id="btnDownload" class="btn btn-primary btn-success btn-block" disabled>
-						Download Video
-					</button>
-				</div>
-				<div class="col-xs-3">
-					<select class="form-control" id="cmbServer">
-					  <option value="yt">YT Server</option>
-					  <option value="navi">Navi's Server</option>
-					</select>
 				</div>
 			</div>
 		</div>
 
-		<script src="./js/main.js"></script>
+		<div id="progressDownload" class="progress progress-striped active" style="display: none">
+			<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+			 aria-valuemax="100" style="width: 100%;">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-9 col-sm-12">
+				<button id="btnDownload" style="margin-bottom:20px" class="btn btn-primary btn-success btn-block" disabled>
+					Download Video
+				</button>
+			</div>
+			<div class="col-md-3 col-sm-12">
+				<select class="form-control" id="cmbServer">
+					<option value="yt">YT Server</option>
+					<option value="navi">Navi's Server</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div>
+		<center>
+			<h3>
+				<small>By Navinda Dissanayake @ www.navinda.xyz</small>
+			</h3>
+		</center>
+	</div>
+	</div>
+	<script src="./js/main.js"></script>
 </body>
 
 </html>
