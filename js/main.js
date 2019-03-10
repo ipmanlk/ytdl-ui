@@ -20,6 +20,7 @@ function registerEventListeners() {
 function btnSearchClick() {
 	if (vidUrlValidate()) {
 		$("#btnSearch").attr("disabled", true);
+		$("#alertOutput").hide();
 		$("#progressSearch").fadeIn();
 		let url = $("#txtVidUrl").val();
 		detailsGet(url, function () {
@@ -87,8 +88,15 @@ function btnDownloadClick() {
 
 function detailsGet(url, callback) {
 	$.get("./request/info.php", { url, url }, function (data) {
-		videoDetails = data;
-		callback();
+		if (data.title !== null) {			
+			videoDetails = data;
+			callback();			
+		} else {
+			$("#alertOutput").text("Youtube link doesn't exist!");
+			$("#progressSearch").hide();
+			$("#alertOutput").fadeIn();
+			$("#btnSearch").attr("disabled", false);
+		}
 	}, "json")
 }
 
