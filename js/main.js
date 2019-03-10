@@ -7,6 +7,7 @@ $(document).ready(function () {
 
 function init() {
 	registerEventListeners();
+	youtubeGetCheck();
 }
 
 function registerEventListeners() {
@@ -134,4 +135,15 @@ function fancyTimeFormat(time) {
 	ret += "" + mins + ":" + (secs < 10 ? "0" : "");
 	ret += "" + secs;
 	return ret;
+}
+
+// support for youtubeget.ml redirects
+function youtubeGetCheck() {
+	let currentUrl = window.location.href;
+	if (currentUrl.indexOf("?url=") > -1) {
+		let ytUrl = currentUrl.split("url=")[1];
+		$("#txtVidUrl").val(ytUrl);
+		vidUrlValidate();
+		btnSearchClick();
+	}
 }
