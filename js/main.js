@@ -33,10 +33,7 @@ function btnSearchClick() {
 
 			// loop through formats
 			for (i in formats) {
-				$("#listDownloads").append(`
-				<li onclick="vidDownloadSelect(this, ${i})" class="list-group-item">
-				${listItemTextGet(formats[i])}
-				</li>`);
+				$("#tblDownloads tbody").append(tdGet(formats[i], i));
 			}
 
 			$("#progressSearch").hide();
@@ -47,21 +44,37 @@ function btnSearchClick() {
 	}
 }
 
-function listItemTextGet(file) {
+
+function tdGet(file, code) {
 	let filesize = file.filesize !== "best" ? (formatBytes(file.filesize)).trim() : "best";
 	let format = (((file.format).split("-"))[1]).trim();
 	let ext = file.ext;
-	let tbr = Math.round(file.tbr);
+	let tbr = Math.round(file.tbr) + "k";
+	let td;
 	if (format.indexOf("audio only (DASH audio)") > -1) {
-		return (`${format} - ${tbr}k - ${ext} - (${filesize})`);
+		td = `
+		<tr onclick="vidDownloadSelect(this, ${code})">
+			<td>Audio</td>
+			<td>${tbr}</td>
+			<td>${ext}</td>
+			<td>${filesize}</td>
+		</tr>`
 	} else {
-		return (`video - ${format} - ${ext} - (${filesize})`);
+		td = `
+		<tr onclick="vidDownloadSelect(this, ${code})">
+			<td>Video</td>
+			<td>${format}</td>
+			<td>${ext}</td>
+			<td>${filesize}</td>
+		</tr>`
 	}
+
+	return (td);
 }
 
 function vidDownloadSelect(elem, code) {
-	$(".list-group-item").removeClass("active");
-	$(elem).addClass("active");
+	$("tr").removeClass("info");
+	$(elem).addClass("info");
 	urlSelected = videoDetails["formats"][code]["url"];
 	codeSelected = code;
 	$("#btnDownload").attr("disabled", false);
