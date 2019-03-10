@@ -103,7 +103,7 @@ function formatBytes(bytes, decimals) {
 
 function vidUrlValidate() {
 	let val = $("#txtVidUrl").val();
-	let regEx = /^(http(s)??\:\/\/)?(www\.)?((youtube\.com\/watch\?v=)|(youtu.be\/))([a-zA-Z0-9\-_])+/;
+	let regEx = /^(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\-_]+)+/;
 	if (regEx.test(val)) {
 		$("#txtUrlGroup").removeClass("has-error");
 		$("#txtUrlGroup").addClass("has-success");
