@@ -13,7 +13,7 @@ function registerEventListeners() {
 	$("#btnSearch").click(btnSearchClick);
 	$("#btnDownload").click(btnDownloadClick);
 	$("#btnExDownload").click(btnExDownloadClick);
-	$("#txtVidUrl").on("change keyup paste", vidUrlValidate);
+	$("#txtVidUrl").on("keyup paste", vidUrlValidate);
 }
 
 
@@ -32,7 +32,10 @@ function btnSearchClick() {
 
 			// loop through formats
 			for (i in formats) {
-				$("#listDownloads").append(`<li onclick="vidDownloadSelect(this, ${i})" class="list-group-item">${listItemTextGet(formats[i])}</li>`);
+				$("#listDownloads").append(`
+				<li onclick="vidDownloadSelect(this, ${i})" class="list-group-item">
+				${listItemTextGet(formats[i])}
+				</li>`);
 			}
 
 			$("#progressSearch").hide();
