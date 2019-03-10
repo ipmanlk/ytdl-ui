@@ -48,7 +48,7 @@
 			</div>
 		</div>
 
-		<div id="panelDown" style="margin-bottom: 30px; display: none">
+		<div id="panelDown" style="margin-bottom: 30px;display: none"">
 			<div class="panel panel-default" style="margin-top: 20px;">
 				<div class="panel-body">
 					<div class="row">
@@ -80,12 +80,19 @@
 				</div>
 			</div>
 
-			<button id="btnDownload" class="btn btn-primary btn-success btn-block" disabled>
-				Download From Youtube Server
-			</button>
-			<button id="btnExDownload" class="btn btn-danger btn-success btn-block" disabled>
-				Download From Navi's Server
-			</button>
+			<div class="row">
+				<div class="col-xs-9">
+					<button id="btnDownload" class="btn btn-primary btn-success btn-block" disabled>
+						Download Video
+					</button>
+				</div>
+				<div class="col-xs-3">
+					<select class="form-control" id="cmbServer">
+					  <option value="yt">YT Server</option>
+					  <option value="navi">Navi's Server</option>
+					</select>
+				</div>
+			</div>
 		</div>
 
 		<script src="./js/main.js"></script>

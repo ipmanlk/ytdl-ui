@@ -13,7 +13,6 @@ function init() {
 function registerEventListeners() {
 	$("#btnSearch").click(btnSearchClick);
 	$("#btnDownload").click(btnDownloadClick);
-	$("#btnExDownload").click(btnExDownloadClick);
 	$("#txtVidUrl").on("keyup paste", vidUrlValidate);
 }
 
@@ -47,23 +46,6 @@ function btnSearchClick() {
 	}
 }
 
-// external download via s1
-function btnExDownloadClick() {
-	$("#btnExDownload").attr("disabled", true);
-	$("#progressDownload").fadeIn();
-
-	let data = {
-		"url": $("#txtVidUrl").val(),
-		"code": codeSelected
-	};
-
-	let url = "./request/download.php";
-
-	$.get(url, data, function (data) {
-		window.location = data;
-	});
-}
-
 function listItemTextGet(file) {
 	let filesize = file.filesize !== "best" ? (formatBytes(file.filesize)).trim() : "best";
 	let format = (((file.format).split("-"))[1]).trim();
@@ -82,11 +64,25 @@ function vidDownloadSelect(elem, code) {
 	urlSelected = videoDetails["formats"][code]["url"];
 	codeSelected = code;
 	$("#btnDownload").attr("disabled", false);
-	$("#btnExDownload").attr("disabled", false);
 }
 
 function btnDownloadClick() {
-	window.location = urlSelected;
+	var server = $("#cmbServer").val();
+	if (server == "yt") {
+	window.location = urlSelected; 
+} else {
+	$("#btnDownload").attr("disabled", true);
+	$("#progressDownload").fadeIn();
+	let data = {
+		"url": $("#txtVidUrl").val(),
+		"code": codeSelected
+	};
+	let url = "./request/download.php";
+
+	$.get(url, data, function (data) {
+		window.location = data;
+	});
+}
 }
 
 function detailsGet(url, callback) {
