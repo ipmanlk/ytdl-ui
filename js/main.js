@@ -94,14 +94,14 @@ function btnDownloadClick() {
 		};
 		let url = "./request/download.php";
 
-		$.get(url, data, function (data) {
+		$.post(url, data, function (data) {
 			window.location = data;
 		});
 	}
 }
 
 function detailsGet(url, callback) {
-	$.get("./request/info.php", { url }, function (data) {
+	$.post("./request/info.php", { url }, function (data) {
 		if (data.title !== null) {
 			videoDetails = data;
 			callback();
