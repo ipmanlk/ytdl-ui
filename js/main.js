@@ -54,7 +54,7 @@ function tdGet(file, code) {
 	let td;
 	if (format.indexOf("audio only (DASH audio)") > -1) {
 		td = `
-		<tr onclick="vidDownloadSelect(this, ${code})">
+		<tr onclick="vidDownloadSelect(this, '${code}')">
 			<td>Audio</td>
 			<td>${tbr}</td>
 			<td>${ext}</td>
@@ -62,7 +62,7 @@ function tdGet(file, code) {
 		</tr>`;
 	} else {
 		td = `
-		<tr onclick="vidDownloadSelect(this, ${code})">
+		<tr onclick="vidDownloadSelect(this, '${code}')">
 			<td>Video</td>
 			<td>${format}</td>
 			<td>${ext}</td>
