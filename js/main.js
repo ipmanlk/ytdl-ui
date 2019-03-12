@@ -33,7 +33,7 @@ function btnSearchClick() {
 			$("#lblVidDuration").text(fancyTimeFormat(videoDetails.duration));
 
 			// loop through formats
-			for (i in formats) {
+			for (let i in formats) {
 				$("#tblDownloads tbody").append(tdGet(formats[i], i));
 			}
 
@@ -59,7 +59,7 @@ function tdGet(file, code) {
 			<td>${tbr}</td>
 			<td>${ext}</td>
 			<td>${filesize}</td>
-		</tr>`
+		</tr>`;
 	} else {
 		td = `
 		<tr onclick="vidDownloadSelect(this, ${code})">
@@ -67,7 +67,7 @@ function tdGet(file, code) {
 			<td>${format}</td>
 			<td>${ext}</td>
 			<td>${filesize}</td>
-		</tr>`
+		</tr>`;
 	}
 
 	return (td);
@@ -76,7 +76,7 @@ function tdGet(file, code) {
 function vidDownloadSelect(elem, code) {
 	$("tr").removeClass("info");
 	$(elem).addClass("info");
-	urlSelected = videoDetails["formats"][code]["url"];
+	urlSelected = videoDetails.formats[code].url;
 	codeSelected = code;
 	$("#btnDownload").attr("disabled", false);
 }
@@ -101,7 +101,7 @@ function btnDownloadClick() {
 }
 
 function detailsGet(url, callback) {
-	$.get("./request/info.php", { url, url }, function (data) {
+	$.get("./request/info.php", { url }, function (data) {
 		if (data.title !== null) {
 			videoDetails = data;
 			callback();
@@ -111,7 +111,7 @@ function detailsGet(url, callback) {
 			$("#alertOutput").fadeIn();
 			$("#btnSearch").attr("disabled", false);
 		}
-	}, "json")
+	}, "json");
 }
 
 function formatBytes(bytes, decimals) {
