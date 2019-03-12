@@ -15,7 +15,7 @@ foreach ($lines as $count => $log) {
         );
         $log_json[] = $entry;
     }
-    if ($count == 5) {
+    if ($count == 4) {
         break;
     }
 
