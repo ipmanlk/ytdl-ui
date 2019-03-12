@@ -16,7 +16,17 @@ $response = file_get_contents($url);
 //If $contents is not a boolean FALSE value.
 if($response !== false){
     //Print out the contents.
-    echo $response;
+	echo $response;
+	
+	$data = json_decode($response);
+	
+	// write to log
+	if (!empty($data->title) && isset($data->title)) {
+		$inputs["url"] = htmlspecialchars($inputs["url"]);
+		$log = $data->title  . "[~]" .  $inputs["url"] . "[~]" . $data->thumbnail . "\n";
+		$log .= file_get_contents('../log/log.txt');
+		file_put_contents('../log/log.txt', $log);
+	}
 }
 
 
