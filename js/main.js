@@ -8,6 +8,7 @@ $(document).ready(function () {
 function init() {
 	registerEventListeners();
 	youtubeGetCheck();
+	recentVidsLoad();
 }
 
 function registerEventListeners() {
@@ -83,27 +84,27 @@ function vidDownloadSelect(elem, code) {
 function btnDownloadClick() {
 	var server = $("#cmbServer").val();
 	if (server == "yt") {
-	window.location = urlSelected; 
-} else {
-	$("#btnDownload").attr("disabled", true);
-	$("#progressDownload").fadeIn();
-	let data = {
-		"url": $("#txtVidUrl").val(),
-		"code": codeSelected
-	};
-	let url = "./request/download.php";
+		window.location = urlSelected;
+	} else {
+		$("#btnDownload").attr("disabled", true);
+		$("#progressDownload").fadeIn();
+		let data = {
+			"url": $("#txtVidUrl").val(),
+			"code": codeSelected
+		};
+		let url = "./request/download.php";
 
-	$.get(url, data, function (data) {
-		window.location = data;
-	});
-}
+		$.get(url, data, function (data) {
+			window.location = data;
+		});
+	}
 }
 
 function detailsGet(url, callback) {
 	$.get("./request/info.php", { url, url }, function (data) {
-		if (data.title !== null) {			
+		if (data.title !== null) {
 			videoDetails = data;
-			callback();			
+			callback();
 		} else {
 			$("#alertOutput").text("Youtube link doesn't exist!");
 			$("#progressSearch").hide();
@@ -134,6 +135,22 @@ function vidUrlValidate() {
 		$("#txtUrlGroup").addClass("has-error");
 		// return (false);
 	}
+}
+
+function recentVidsLoad() {
+	$.get("./log/getLogs.php", function (data) {
+		for (let i in data) {
+			$("#listRecentVids").append(`
+			<a class="list-group-item" onclick="recentVidSearch('${data[i].url}')">${data[i].title}</a>
+			`);
+		}
+		$("#listRecentVids").parent().fadeIn();
+	}, "json");
+}
+
+function recentVidSearch(ytUrl) {
+	$("#txtVidUrl").val(ytUrl);
+	btnSearchClick();
 }
 
 function fancyTimeFormat(time) {
