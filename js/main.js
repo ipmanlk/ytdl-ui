@@ -37,6 +37,13 @@ function btnSearchClick() {
 				$("#tblDownloads tbody").append(tdGet(formats[i], i));
 			}
 
+			// hide server selection for non youtube vids
+			if (url.indexOf("youtube") == -1) {
+				$("#cmbServer").attr("disabled", true);
+			} else {
+				$("#cmbServer").attr("disabled", false);
+			}
+
 			$("#progressSearch").hide();
 			$("#panelSearch").hide();
 			$("#btnDownload").attr("disabled", true);
@@ -125,7 +132,7 @@ function formatBytes(bytes, decimals) {
 
 function vidUrlValidate() {
 	let val = $("#txtVidUrl").val();
-	let regEx = /^(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\-_]+)+/;
+	let regEx = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 	if (regEx.test(val)) {
 		$("#txtUrlGroup").removeClass("has-error");
 		$("#txtUrlGroup").addClass("has-success");
