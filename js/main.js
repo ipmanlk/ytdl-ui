@@ -141,14 +141,16 @@ function recentVidsLoad() {
 	$.get("./log/getLogs.php", function (data) {
 		for (let i in data) {
 			$("#listRecentVids").append(`
-			<a class="list-group-item" onclick="recentVidSearch('${data[i].url}')">${data[i].title}</a>
+			<a class="list-group-item" onclick="recentVidSearch(this, '${data[i].url}')">${data[i].title}</a>
 			`);
 		}
-		$("#listRecentVids").parent().fadeIn();
+		$("#listRecentVids").fadeIn();
 	}, "json");
 }
 
-function recentVidSearch(ytUrl) {
+function recentVidSearch(elem, ytUrl) {
+	$("#listRecentVids a").removeClass("active");
+	$(elem).addClass("active");
 	$("#txtVidUrl").val(ytUrl);
 	btnSearchClick();
 }
