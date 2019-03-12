@@ -178,8 +178,10 @@ function youtubeGetCheck() {
 	let currentUrl = window.location.href;
 	if (currentUrl.indexOf("?url=") > -1) {
 		let ytUrl = currentUrl.split("url=")[1];
-		$("#txtVidUrl").val(ytUrl);
-		vidUrlValidate();
-		btnSearchClick();
+		if (!jQuery.isEmptyObject(ytUrl)) {
+			$("#txtVidUrl").val(ytUrl);
+			vidUrlValidate();
+			btnSearchClick();
+		}
 	}
 }
