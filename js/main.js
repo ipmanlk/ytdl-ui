@@ -42,7 +42,12 @@ function btnSearchClick() {
 			$("#btnDownload").attr("disabled", true);
 			$("#panelDown").fadeIn();
 		});
+
+		if (url.indexOf("youtube") == -1) {
+			$("#cmbServer").attr("disabled", true);
+		}
 	}
+
 }
 
 
@@ -125,7 +130,7 @@ function formatBytes(bytes, decimals) {
 
 function vidUrlValidate() {
 	let val = $("#txtVidUrl").val();
-	let regEx = /^(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\-_]+)+/;
+	let regEx = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
 	if (regEx.test(val)) {
 		$("#txtUrlGroup").removeClass("has-error");
 		$("#txtUrlGroup").addClass("has-success");
@@ -156,6 +161,7 @@ function recentVidSearch(elem, ytUrl) {
 }
 
 function fancyTimeFormat(time) {
+	if (time == null) { return "unknown"; }
 	// Hours, minutes and seconds
 	var hrs = ~~(time / 3600);
 	var mins = ~~((time % 3600) / 60);
