@@ -2,10 +2,10 @@
 $required = array("url", "code");
 $inputs = array();
 foreach ($required as $input) {
-	if (!isset($_GET[$input]) || empty($_GET[$input])) {
+	if (!isset($_POST[$input]) || empty($_POST[$input])) {
 		exit("-1");
 	}
-	$inputs[$input] = trim($_GET[$input]);
+	$inputs[$input] = trim($_POST[$input]);
 }
 
 $url = 'https://s1.navinda.xyz/youtube/download.php?url=' . $inputs["url"] . "&code=" . $inputs["code"];
