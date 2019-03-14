@@ -41,9 +41,14 @@ function btnSearchClick() {
 			$("#panelSearch").hide();
 			$("#btnDownload").attr("disabled", true);
 			$("#panelDown").fadeIn();
+
+			if (!videoDetails.status) {
+				$("#cmbServer").val("navi");
+				$("#cmbServer option")[0].remove();
+			}
 		});
 
-		if (url.indexOf("youtube") == -1) {
+		if (url.indexOf("youtu") == -1) {
 			$("#cmbServer").attr("disabled", true);
 		}
 	}
