@@ -47,10 +47,6 @@ function btnSearchClick() {
 				$("#cmbServer option")[0].remove();
 			}
 		});
-
-		if (url.indexOf("youtu") == -1) {
-			$("#cmbServer").attr("disabled", true);
-		}
 	}
 
 }
