@@ -3,22 +3,40 @@ $file = "log.txt";
 $contents = file_get_contents($file);
 $lines = explode("\n", $contents);
 
-$log_json = array();
+$logs = array();
 
-foreach ($lines as $count => $log) {
-    if (!empty($log)) {
-        $data = explode("[~]", trim($log));
-        $entry = array(
+// store previous line
+$prevLine = "";
+
+// loop through lines
+foreach ($lines as $count => $currentLine) {
+    if (!empty($currentLine)) {
+        // check if prev line is not the same
+        if ($prevLine == $currentLine) {
+            continue;
+        } else {
+            $prevLine = $currentLine;
+        }
+
+        // format logs and put them in an array
+        $data = explode("[~]", trim($currentLine));
+
+        $logEntry = array(
             "title" => $data[0],
             "url" => $data[1],
             "thumbnail" => $data[2],
         );
-        $log_json[] = $entry;
+
+        // add a log to logs array
+        $logs[] = $logEntry;
     }
+
+    // num of logs to show
     if ($count == 4) {
         break;
     }
 
 }
 
-echo json_encode($log_json);
+// output array
+echo json_encode($logs);
