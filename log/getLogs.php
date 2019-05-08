@@ -32,7 +32,7 @@ foreach ($lines as $count => $currentLine) {
     }
 
     // num of logs to show
-    if ($count == 4) {
+    if ($count == 9) {
         break;
     }
 
