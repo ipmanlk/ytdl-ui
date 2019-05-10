@@ -8,8 +8,11 @@ $logs = array();
 // store previous line
 $prevLine = "";
 
+// log counter
+$count = 0;
+
 // loop through lines
-foreach ($lines as $count => $currentLine) {
+foreach ($lines as $lineNo => $currentLine) {
     if (!empty($currentLine)) {
         // check if prev line is not the same
         if ($prevLine == $currentLine) {
@@ -36,6 +39,7 @@ foreach ($lines as $count => $currentLine) {
         break;
     }
 
+    $count++;
 }
 
 // output array
